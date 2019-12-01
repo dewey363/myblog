@@ -3,8 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
+	"github.com/OnfireMrHuang/myblog/models"
 	"github.com/astaxie/beego"
-	"github.com/sinksmell/LanBlog/models"
 	"strconv"
 	"strings"
 )
@@ -14,18 +14,18 @@ type CategoryController struct {
 }
 
 func (c *CategoryController) URLMapping() {
-	c.Mapping("Create",c.Create)
-	c.Mapping("GetOne",c.GetOne)
-	c.Mapping("GetAll",c.GetAll)
-	c.Mapping("Update",c.Update)
-	c.Mapping("Delete",c.Delete)
+	c.Mapping("Create", c.Create)
+	c.Mapping("GetOne", c.GetOne)
+	c.Mapping("GetAll", c.GetAll)
+	c.Mapping("Update", c.Update)
+	c.Mapping("Delete", c.Delete)
 }
 
 func (c *CategoryController) Create() {
 	result := models.NewCommResult()
 	var v models.Category
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody,&v);err == nil {
-		if _,err := models.AddCategory(&v);err == nil {
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		if _, err := models.AddCategory(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			result.Msg = "OK"
 		} else {
@@ -38,18 +38,17 @@ func (c *CategoryController) Create() {
 	c.ServeJSON()
 }
 
-
 func (c *CategoryController) GetOne() {
 	idStr := c.Ctx.Input.Param(":id")
-		id,_ := strconv.Atoi(idStr)
-		v,err := models.GetCategoryById(id)
-		if err != nil {
-				c.Data["json"] = err.Error()
-			} else {
-				c.Data["json"] = v
-			}
-		c.ServeJSON()
+	id, _ := strconv.Atoi(idStr)
+	v, err := models.GetCategoryById(id)
+	if err != nil {
+		c.Data["json"] = err.Error()
+	} else {
+		c.Data["json"] = v
 	}
+	c.ServeJSON()
+}
 
 func (c *CategoryController) GetAll() {
 	var fields []string
@@ -59,15 +58,15 @@ func (c *CategoryController) GetAll() {
 	var limit int64 = 10
 	var offset int64
 
-	if v := c.GetString("fields");v != "" {
-		fields = strings.Split(v,",")
+	if v := c.GetString("fields"); v != "" {
+		fields = strings.Split(v, ",")
 	}
 
-	if v,err := c.GetInt64("limit");err == nil {
+	if v, err := c.GetInt64("limit"); err == nil {
 		limit = v
 	}
 
-	if v,err := c.GetInt64("offset");err == nil {
+	if v, err := c.GetInt64("offset"); err == nil {
 		offset = v
 	}
 
@@ -80,20 +79,20 @@ func (c *CategoryController) GetAll() {
 		order = strings.Split(v, ",")
 	}
 
-	if v := c.GetString("query");v != "" {
-		for _,cond := range strings.Split(v,",") {
-			kv := strings.SplitN(cond,":",2)
+	if v := c.GetString("query"); v != "" {
+		for _, cond := range strings.Split(v, ",") {
+			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
 				c.Data["json"] = errors.New("Error:invalid query key/value pair")
 				c.ServeJSON()
 				return
 			}
-			k,v := kv[0],kv[1]
+			k, v := kv[0], kv[1]
 			query[k] = v
 		}
 	}
 
-	l,err := models.GetAllCategory(query,fields,sortby,order,offset,limit)
+	l, err := models.GetAllCategory(query, fields, sortby, order, offset, limit)
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {

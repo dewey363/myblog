@@ -53,7 +53,7 @@ func GetTopicByID(id int) (v *Topic, err error) {
 	return nil, err
 }
 
-func GetTopicByCateID(cateId int) ([]*Topic, error) {
+func GetTopicsByCateID(cateId int) ([]*Topic, error) {
 	o := orm.NewOrm()
 	cate := &Category{Id: cateId}
 	var topics []*Topic
@@ -70,7 +70,7 @@ func GetTopicByCateID(cateId int) ([]*Topic, error) {
 	return topics, err
 }
 
-func GetTopicByLabelID(tagId int) ([]*Topic, error) {
+func GetTopicsByLabelID(tagId int) ([]*Topic, error) {
 	o := orm.NewOrm()
 	label := &Label{Id: tagId}
 	var topics []*Topic

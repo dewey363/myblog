@@ -2,17 +2,17 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/sinksmell/LanBlog/controllers"
+	"myblog/controllers"
 )
 
-func init()  {
-		ns := beego.NewNamespace("/v1",
+func init() {
+	ns := beego.NewNamespace("/v1",
 
 		beego.NSNamespace("/topic",
 			beego.NSInclude(
 				&controllers.TopicController{},
-				),
 			),
+		),
 
 		beego.NSNamespace("/category",
 			beego.NSInclude(

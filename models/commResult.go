@@ -5,7 +5,7 @@ type CommResult struct {
 	Msg  string `json:"msg"`
 }
 
-type TopicResult struct {
+type TopicsResult struct {
 	Code   int      `json:"code"`
 	Msg    string   `json:"msg"`
 	Topics []*Topic `json:"topics"`

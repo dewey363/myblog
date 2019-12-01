@@ -3,8 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
+	"github.com/OnfireMrHuang/myblog/models"
 	"github.com/astaxie/beego"
-	"github.com/sinksmell/LanBlog/models"
 	"strconv"
 	"strings"
 )
@@ -24,11 +24,11 @@ func (c *TopicController) URLMapping() {
 	c.Mapping("GetByVagueName", c.GetByVagueName)
 }
 
-func (c *TopicController) Create()  {
+func (c *TopicController) Create() {
 	var v models.Topic
 	result := models.NewCommResult()
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody,&v);err == nil {
-		if _,err := models.AddTopic(&v);err == nil {
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		if _, err := models.AddTopic(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			result.Msg = "OK"
 		} else {

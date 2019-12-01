@@ -9,7 +9,6 @@ import (
 
 const (
 	DB_DRIVER = "mysql"
-	//DB_URL="root:cxx15755599659@tcp(127.0.0.1:3306)/myblog"
 )
 
 //定义从配置文件读取数据库并注册

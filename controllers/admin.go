@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
+	"github.com/OnfireMrHuang/myblog/models"
 	"github.com/astaxie/beego"
-	"github.com/sinksmell/LanBlog/models"
 )
 
 type AdminController struct {
@@ -11,14 +11,21 @@ type AdminController struct {
 }
 
 func (u *AdminController) URLMapping() {
-	u.Mapping("Login",u.Login)
-	u.Mapping("Options",u.Options)
+	u.Mapping("Login", u.Login)
+	u.Mapping("Options", u.Options)
 }
 
+// @Title AdminLogin
+// @Description admin login
+// @Param	body		body 	models.Admin	true		"body for Admin content"
+// @Success 200
+// @Failure 403 body is empty
+// @router /login [post]
 func (u *AdminController) Login() {
+
 	result := &models.LoginResult{}
 	var admin models.Admin
-	json.Unmarshal(u.Ctx.Input.RequestBody,&admin)
+	json.Unmarshal(u.Ctx.Input.RequestBody, &admin)
 	adminName := beego.AppConfig.String("adminName")
 	adminPWD := beego.AppConfig.String("adminPWD")
 	if admin.Name == adminName && admin.Password == adminPWD {
@@ -27,7 +34,7 @@ func (u *AdminController) Login() {
 		result.Data.User = admin
 		result.Data.Token = models.GenToken()
 		result.Data.Name = "管理员"
-		result.Data.UUId = "sinksmell"
+		result.Data.UUid = "sinksmell"
 	} else {
 		result.Code = 100
 		result.Msg = "用户名或密码错误"
@@ -36,7 +43,7 @@ func (u *AdminController) Login() {
 	u.ServeJSON()
 }
 
-
+// @router /login [options]
 func (u *AdminController) Options() {
 	//u.Data["json"] = "test"
 	//u.ServeJSON()

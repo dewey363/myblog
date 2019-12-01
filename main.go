@@ -5,7 +5,8 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/plugins/cors"
-	"github.com/sinksmell/LanBlog/models"
+	"github.com/myblog/models"
+	_ "github.com/myblog/routers"
 )
 
 func init() {
@@ -17,19 +18,14 @@ func init() {
 func main() {
 	fmt.Println("hello myblog!")
 	//设置访问过滤
-	beego.InsertFilter("*",beego.BeforeRouter,cors.Allow(
+	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(
 		&cors.Options{
-			AllowAllOrigins:true,
-			AllowMethods: []string{"GET","POST","OPTIONS"},
+			AllowAllOrigins:  true,
+			AllowMethods:     []string{"GET", "POST", "OPTIONS"},
 			AllowHeaders:     []string{"Origin", "Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 			ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 			AllowCredentials: true,
 		}))
-
-	if beego.BConfig.RunMode == "dev" {
-		beego.BConfig.WebConfig.DirectoryIndex = true
-		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
-	}
 
 	beego.Run()
 }

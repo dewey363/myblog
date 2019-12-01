@@ -8,7 +8,7 @@ import (
 
 const key = "sinksmell"
 
-func GetToken() string {
+func GenToken() string {
 	claims := &jwt.StandardClaims{
 		NotBefore: int64(time.Now().Unix()),
 		ExpiresAt: int64(time.Now().Unix() + 1000),
